@@ -1,9 +1,11 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class Tablero implements ActionListener {
 
+    private String[] tablero = {"","","","","","","","",""};
     private boolean jugador;
 
     JFrame rootFrame;
@@ -87,13 +89,84 @@ public class Tablero implements ActionListener {
         btnEmpezar.setText("Reiniciar");
 
         jugador = true;
+        tablero = new String[]{"", "", "", "", "", "", "", "", ""};
         pnlTablero.setVisible(true);
     }
 
     private void jugar(final JButton button) {
-        button.setText(jugador ? "X" : "O");
+        final String marca = jugador ? Marca.MARCA1.toString() : Marca.MARCA2.toString();
+        button.setText(marca);
         button.setEnabled(false);
 
+        int posicion = Integer.parseInt(button.getName());
+        tablero[posicion] = marca;
+
+        revisarEstado();
+    }
+
+    private void revisarEstado() {
+        boolean juegoTerminado = false;
+
+        for (int a = 0; a < 8; a++) {
+            String line = null;
+
+            switch (a) {
+                case 0:
+                    line = tablero[0] + tablero[1] + tablero[2];
+                    break;
+                case 1:
+                    line = tablero[3] + tablero[4] + tablero[5];
+                    break;
+                case 2:
+                    line = tablero[6] + tablero[7] + tablero[8];
+                    break;
+                case 3:
+                    line = tablero[0] + tablero[3] + tablero[6];
+                    break;
+                case 4:
+                    line = tablero[1] + tablero[4] + tablero[7];
+                    break;
+                case 5:
+                    line = tablero[2] + tablero[5] + tablero[8];
+                    break;
+                case 6:
+                    line = tablero[0] + tablero[4] + tablero[8];
+                    break;
+                case 7:
+                    line = tablero[2] + tablero[4] + tablero[6];
+                    break;
+            }
+            //For X winner
+            if (line.equals(Marca.MARCA1.toString() + Marca.MARCA1 + Marca.MARCA1)) {
+                finalizarJuego("Gana el jugador 1");
+                juegoTerminado = true;
+            }
+
+            // For O winner
+            else if (line.equals(Marca.MARCA2.toString() + Marca.MARCA2 + Marca.MARCA2)) {
+                finalizarJuego("Gana el jugador 2");
+                juegoTerminado = true;
+            }
+        }
+
+        if (!juegoTerminado && !Arrays.asList(tablero).contains("")) {
+            finalizarJuego("Empate");
+        }
+
         jugador = !jugador;
+    }
+
+    private void finalizarJuego(final String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+
+        btnCasillero1.setEnabled(false);
+        btnCasillero2.setEnabled(false);
+        btnCasillero3.setEnabled(false);
+        btnCasillero4.setEnabled(false);
+        btnCasillero5.setEnabled(false);
+        btnCasillero6.setEnabled(false);
+        btnCasillero7.setEnabled(false);
+        btnCasillero8.setEnabled(false);
+        btnCasillero9.setEnabled(false);
     }
 }
