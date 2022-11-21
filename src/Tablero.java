@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class Tablero implements ActionListener {
@@ -32,11 +31,12 @@ public class Tablero implements ActionListener {
     private JButton btnEmpezar;
     private JLabel lblJugador1;
     private JLabel lblJugador2;
+    private JLabel lblEstado;
 
     public Tablero() {
         rootFrame = new JFrame("Tateti BT");
 
-        rootFrame.setSize(800, 600);
+        rootFrame.setSize(600, 480);
         rootFrame.setLayout(null);
         rootFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         rootFrame.setLocationRelativeTo(null);
@@ -105,6 +105,8 @@ public class Tablero implements ActionListener {
     }
 
     private void prepararProximaJugada() {
+        final String nombreJugadorActual = jugadorActual ? "Jugador 1" : "Jugador 2";
+        lblEstado.setText("Juega el " + nombreJugadorActual);
         pnlPrincipal.setEnabled(false);
         if ((jugadorActual && jugador1 == Jugador.HUMANO) || (!jugadorActual && jugador2 == Jugador.HUMANO)) {
             pnlPrincipal.setEnabled(false);
@@ -114,12 +116,6 @@ public class Tablero implements ActionListener {
     }
 
     private void JugarComputadora() {
-        try {
-            TimeUnit.SECONDS.sleep(0);
-        } catch (Exception ignored) {
-
-        }
-
 
         final int[] disponibles = IntStream.range(0, tablero.length)
                 .filter(i -> Objects.equals(tablero[i], ""))
@@ -206,12 +202,14 @@ public class Tablero implements ActionListener {
             if (line.equals(Marca.MARCA1.toString() + Marca.MARCA1 + Marca.MARCA1)) {
                 finalizarJuego("Gana el jugador 1");
                 juegoTerminado = true;
+                break;
             }
 
             // For O winner
             else if (line.equals(Marca.MARCA2.toString() + Marca.MARCA2 + Marca.MARCA2)) {
                 finalizarJuego("Gana el jugador 2");
                 juegoTerminado = true;
+                break;
             }
         }
 
@@ -228,6 +226,7 @@ public class Tablero implements ActionListener {
 
     private void finalizarJuego(final String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);
+        lblEstado.setText(mensaje);
 
         btnCasillero1.setEnabled(false);
         btnCasillero2.setEnabled(false);
