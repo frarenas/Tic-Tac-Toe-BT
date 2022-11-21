@@ -40,7 +40,7 @@ public class Tablero implements ActionListener {
         rootFrame.setLayout(null);
         rootFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         rootFrame.setLocationRelativeTo(null);
-        //rootFrame.add(pnlPrincipal);
+        rootFrame.setResizable(false);
         rootFrame.setContentPane(pnlPrincipal);
 
         btnCasillero1.addActionListener(this);
