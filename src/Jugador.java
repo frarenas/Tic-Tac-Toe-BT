@@ -1,3 +1,4 @@
 public enum Jugador {
-    HUMANO
+    HUMANO,
+    COMPUTADORA
 }

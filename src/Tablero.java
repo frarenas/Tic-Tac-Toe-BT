@@ -2,11 +2,17 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 public class Tablero implements ActionListener {
 
     private String[] tablero = {"","","","","","","","",""};
-    private boolean jugador;
+    private boolean jugadorActual;
+    private Jugador jugador1;
+    private Jugador jugador2;
 
     JFrame rootFrame;
     private JPanel pnlPrincipal;
@@ -54,6 +60,8 @@ public class Tablero implements ActionListener {
 
         cbJugador1.addItem(Jugador.HUMANO);
         cbJugador2.addItem(Jugador.HUMANO);
+        cbJugador1.addItem(Jugador.COMPUTADORA);
+        cbJugador2.addItem(Jugador.COMPUTADORA);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -88,13 +96,71 @@ public class Tablero implements ActionListener {
 
         btnEmpezar.setText("Reiniciar");
 
-        jugador = true;
+        jugadorActual = true;
+        jugador1 = (Jugador) cbJugador1.getSelectedItem();
+        jugador2 = (Jugador) cbJugador2.getSelectedItem();
         tablero = new String[]{"", "", "", "", "", "", "", "", ""};
         pnlTablero.setVisible(true);
+        prepararProximaJugada();
+    }
+
+    private void prepararProximaJugada() {
+        pnlPrincipal.setEnabled(false);
+        if ((jugadorActual && jugador1 == Jugador.HUMANO) || (!jugadorActual && jugador2 == Jugador.HUMANO)) {
+            pnlPrincipal.setEnabled(false);
+        } else {
+            JugarComputadora();
+        }
+    }
+
+    private void JugarComputadora() {
+        try {
+            TimeUnit.SECONDS.sleep(0);
+        } catch (Exception ignored) {
+
+        }
+
+
+        final int[] disponibles = IntStream.range(0, tablero.length)
+                .filter(i -> Objects.equals(tablero[i], ""))
+                .toArray();
+
+        final int elegido = new Random().nextInt(disponibles.length);
+        final int posicionElegida = disponibles[elegido];
+
+        switch (posicionElegida) {
+            case 0:
+                btnCasillero1.doClick();
+                break;
+            case 1:
+                btnCasillero2.doClick();
+                break;
+            case 2:
+                btnCasillero3.doClick();
+                break;
+            case 3:
+                btnCasillero4.doClick();
+                break;
+            case 4:
+                btnCasillero5.doClick();
+                break;
+            case 5:
+                btnCasillero6.doClick();
+                break;
+            case 6:
+                btnCasillero7.doClick();
+                break;
+            case 7:
+                btnCasillero8.doClick();
+                break;
+            case 8:
+                btnCasillero9.doClick();
+                break;
+        }
     }
 
     private void jugar(final JButton button) {
-        final String marca = jugador ? Marca.MARCA1.toString() : Marca.MARCA2.toString();
+        final String marca = jugadorActual ? Marca.MARCA1.toString() : Marca.MARCA2.toString();
         button.setText(marca);
         button.setEnabled(false);
 
@@ -151,9 +217,13 @@ public class Tablero implements ActionListener {
 
         if (!juegoTerminado && !Arrays.asList(tablero).contains("")) {
             finalizarJuego("Empate");
+            juegoTerminado = true;
         }
 
-        jugador = !jugador;
+        if (!juegoTerminado) {
+            jugadorActual = !jugadorActual;
+            prepararProximaJugada();
+        }
     }
 
     private void finalizarJuego(final String mensaje) {
