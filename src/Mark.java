@@ -1,10 +1,10 @@
-public enum Marca {
-    MARCA1 {
+public enum Mark {
+    MARK1 {
         public String toString() {
             return "X";
         }
     },
-    MARCA2 {
+    MARK2 {
         public String toString() {
             return "O";
         }
