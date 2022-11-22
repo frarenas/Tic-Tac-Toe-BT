@@ -1,5 +1,5 @@
 public enum PlayerType {
     HUMANO,
-    COMPUTADORA,
-    COMPUTADORABT
+    AZAR,
+    BACKTRACKING
 }
