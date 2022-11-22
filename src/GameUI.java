@@ -19,24 +19,24 @@ public class GameUI implements ActionListener {
     }
 
     JFrame rootFrame;
-    private JPanel pnlPrincipal;
-    private JButton btnCasillero1;
-    private JButton btnCasillero4;
-    private JButton btnCasillero7;
-    private JButton btnCasillero2;
-    private JButton btnCasillero5;
-    private JButton btnCasillero8;
-    private JButton btnCasillero3;
-    private JButton btnCasillero6;
-    private JButton btnCasillero9;
-    private JPanel pnlTablero;
+    private JPanel pnlMain;
+    private JButton btnSquare1;
+    private JButton btnSquare4;
+    private JButton btnSquare7;
+    private JButton btnSquare2;
+    private JButton btnSquare5;
+    private JButton btnSquare8;
+    private JButton btnSquare3;
+    private JButton btnSquare6;
+    private JButton btnSquare9;
+    private JPanel pnlBoard;
     private JPanel pnlControl;
-    private JComboBox<PlayerType> cbJugador2;
-    private JComboBox<PlayerType> cbJugador1;
-    private JButton btnEmpezar;
-    private JLabel lblJugador1;
-    private JLabel lblJugador2;
-    private JLabel lblEstado;
+    private JComboBox<PlayerType> cbPlayer2;
+    private JComboBox<PlayerType> cbPlayer1;
+    private JButton btnStart;
+    private JLabel lblPlayer1;
+    private JLabel lblPlayer2;
+    private JLabel lblState;
 
     public GameUI() {
         ticTacToe = new TicTacToe();
@@ -48,34 +48,34 @@ public class GameUI implements ActionListener {
         rootFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         rootFrame.setLocationRelativeTo(null);
         rootFrame.setResizable(false);
-        rootFrame.setContentPane(pnlPrincipal);
+        rootFrame.setContentPane(pnlMain);
 
-        btnCasillero1.addActionListener(this);
-        btnCasillero2.addActionListener(this);
-        btnCasillero3.addActionListener(this);
-        btnCasillero4.addActionListener(this);
-        btnCasillero5.addActionListener(this);
-        btnCasillero6.addActionListener(this);
-        btnCasillero7.addActionListener(this);
-        btnCasillero8.addActionListener(this);
-        btnCasillero9.addActionListener(this);
-        btnEmpezar.addActionListener(this);
+        btnSquare1.addActionListener(this);
+        btnSquare2.addActionListener(this);
+        btnSquare3.addActionListener(this);
+        btnSquare4.addActionListener(this);
+        btnSquare5.addActionListener(this);
+        btnSquare6.addActionListener(this);
+        btnSquare7.addActionListener(this);
+        btnSquare8.addActionListener(this);
+        btnSquare9.addActionListener(this);
+        btnStart.addActionListener(this);
 
-        pnlTablero.setVisible(false);
+        pnlBoard.setVisible(false);
 
         rootFrame.setVisible(true);
 
-        cbJugador1.addItem(PlayerType.HUMANO);
-        cbJugador2.addItem(PlayerType.HUMANO);
-        cbJugador1.addItem(PlayerType.COMPUTADORA);
-        cbJugador2.addItem(PlayerType.COMPUTADORA);
-        cbJugador1.addItem(PlayerType.COMPUTADORABT);
-        cbJugador2.addItem(PlayerType.COMPUTADORABT);
+        cbPlayer1.addItem(PlayerType.HUMANO);
+        cbPlayer2.addItem(PlayerType.HUMANO);
+        cbPlayer1.addItem(PlayerType.AZAR);
+        cbPlayer2.addItem(PlayerType.AZAR);
+        cbPlayer1.addItem(PlayerType.BACKTRACKING);
+        cbPlayer2.addItem(PlayerType.BACKTRACKING);
     }
 
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
-        if(button == btnEmpezar) {
+        if(button == btnStart) {
             restart();
         } else {
             play(button);
@@ -83,42 +83,42 @@ public class GameUI implements ActionListener {
     }
 
     private void restart() {
-        btnCasillero1.setText("");
-        btnCasillero2.setText("");
-        btnCasillero3.setText("");
-        btnCasillero4.setText("");
-        btnCasillero5.setText("");
-        btnCasillero6.setText("");
-        btnCasillero7.setText("");
-        btnCasillero8.setText("");
-        btnCasillero9.setText("");
+        btnSquare1.setText("");
+        btnSquare2.setText("");
+        btnSquare3.setText("");
+        btnSquare4.setText("");
+        btnSquare5.setText("");
+        btnSquare6.setText("");
+        btnSquare7.setText("");
+        btnSquare8.setText("");
+        btnSquare9.setText("");
 
-        btnCasillero1.setEnabled(true);
-        btnCasillero2.setEnabled(true);
-        btnCasillero3.setEnabled(true);
-        btnCasillero4.setEnabled(true);
-        btnCasillero5.setEnabled(true);
-        btnCasillero6.setEnabled(true);
-        btnCasillero7.setEnabled(true);
-        btnCasillero8.setEnabled(true);
-        btnCasillero9.setEnabled(true);
+        btnSquare1.setEnabled(true);
+        btnSquare2.setEnabled(true);
+        btnSquare3.setEnabled(true);
+        btnSquare4.setEnabled(true);
+        btnSquare5.setEnabled(true);
+        btnSquare6.setEnabled(true);
+        btnSquare7.setEnabled(true);
+        btnSquare8.setEnabled(true);
+        btnSquare9.setEnabled(true);
 
-        btnEmpezar.setText("Reiniciar");
+        btnStart.setText("Reiniciar");
 
         currentPlayer = true;
-        player1 = (PlayerType) cbJugador1.getSelectedItem();
-        player2 = (PlayerType) cbJugador2.getSelectedItem();
+        player1 = (PlayerType) cbPlayer1.getSelectedItem();
+        player2 = (PlayerType) cbPlayer2.getSelectedItem();
         board = new String[]{"", "", "", "", "", "", "", "", ""};
-        pnlTablero.setVisible(true);
+        pnlBoard.setVisible(true);
         setNextMove();
     }
 
     private void setNextMove() {
         final String currentPlayerName = currentPlayer ? "Jugador 1" : "Jugador 2";
-        lblEstado.setText("Juega el " + currentPlayerName);
-        pnlPrincipal.setEnabled(false);
+        lblState.setText("Juega el " + currentPlayerName);
+        pnlMain.setEnabled(false);
         if ((currentPlayer && player1 == PlayerType.HUMANO) || (!currentPlayer && player2 == PlayerType.HUMANO)) {
-            pnlPrincipal.setEnabled(false);
+            pnlMain.setEnabled(false);
         } else {
             computerPlay();
         }
@@ -127,7 +127,7 @@ public class GameUI implements ActionListener {
     private void computerPlay() {
         final int selectedSquare;
 
-        if ((currentPlayer && player1 == PlayerType.COMPUTADORA) || (!currentPlayer && player2 == PlayerType.COMPUTADORA)) {
+        if ((currentPlayer && player1 == PlayerType.AZAR) || (!currentPlayer && player2 == PlayerType.AZAR)) {
             selectedSquare = ticTacToe.getRandomAvailableSquare(board);
         } else {
             if(ticTacToe.isBoardEmpty(board)){
@@ -139,31 +139,31 @@ public class GameUI implements ActionListener {
 
         switch (selectedSquare) {
             case 0:
-                btnCasillero1.doClick();
+                btnSquare1.doClick();
                 break;
             case 1:
-                btnCasillero2.doClick();
+                btnSquare2.doClick();
                 break;
             case 2:
-                btnCasillero3.doClick();
+                btnSquare3.doClick();
                 break;
             case 3:
-                btnCasillero4.doClick();
+                btnSquare4.doClick();
                 break;
             case 4:
-                btnCasillero5.doClick();
+                btnSquare5.doClick();
                 break;
             case 5:
-                btnCasillero6.doClick();
+                btnSquare6.doClick();
                 break;
             case 6:
-                btnCasillero7.doClick();
+                btnSquare7.doClick();
                 break;
             case 7:
-                btnCasillero8.doClick();
+                btnSquare8.doClick();
                 break;
             case 8:
-                btnCasillero9.doClick();
+                btnSquare9.doClick();
                 break;
         }
     }
@@ -200,17 +200,17 @@ public class GameUI implements ActionListener {
 
     private void finishGame(final String message) {
         JOptionPane.showMessageDialog(null, message);
-        lblEstado.setText(message);
+        lblState.setText(message);
 
-        btnCasillero1.setEnabled(false);
-        btnCasillero2.setEnabled(false);
-        btnCasillero3.setEnabled(false);
-        btnCasillero4.setEnabled(false);
-        btnCasillero5.setEnabled(false);
-        btnCasillero6.setEnabled(false);
-        btnCasillero7.setEnabled(false);
-        btnCasillero8.setEnabled(false);
-        btnCasillero9.setEnabled(false);
+        btnSquare1.setEnabled(false);
+        btnSquare2.setEnabled(false);
+        btnSquare3.setEnabled(false);
+        btnSquare4.setEnabled(false);
+        btnSquare5.setEnabled(false);
+        btnSquare6.setEnabled(false);
+        btnSquare7.setEnabled(false);
+        btnSquare8.setEnabled(false);
+        btnSquare9.setEnabled(false);
     }
 
     private String getMark() {
