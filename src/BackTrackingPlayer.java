@@ -7,16 +7,16 @@ public class BackTrackingPlayer {
         this.ticTacToe = ticTacToe;
     }
 
-    public int miniMax(String[] board, boolean currentPlayer)
+    public int findBestSquare(String[] board, boolean currentPlayer)
     {
         //String[] board = Arrays.copyOf(board, board.length);
 
         if (ticTacToe.getGameState(board) == GameState.DRAW) {
             return 0;
         } else if (ticTacToe.getGameState(board) == GameState.PLAYER1WIN) {
-            return -10;
+            return -9;
         } else if (ticTacToe.getGameState(board) == GameState.PLAYER2WIN){
-            return 10;
+            return 9;
         }
 
         int bestVal;
@@ -30,12 +30,11 @@ public class BackTrackingPlayer {
                 if (!Objects.equals(board[i], ""))
                     continue;
                 board[i] = Mark.MARK2.toString();
-                int value = miniMax(board, true);
+                int value = findBestSquare(board, true);
                 if (value > bestVal) {
                     bestVal = value;
                     bestSquare = i;
                 }
-
                 board[i] = "";
             }
         } else {
@@ -44,7 +43,7 @@ public class BackTrackingPlayer {
                 if (!Objects.equals(board[i], ""))
                     continue;
                 board[i] = Mark.MARK1.toString();
-                int value = miniMax(board, false);
+                int value = findBestSquare(board, false);
                 if (value < bestVal) {
                     bestVal = value;
                     bestSquare = i;

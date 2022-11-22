@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class GameUI implements ActionListener {
 
@@ -134,7 +133,7 @@ public class GameUI implements ActionListener {
             if(ticTacToe.isBoardEmpty(board)){
                 selectedSquare = ticTacToe.getRandomAvailableSquare(board);
             } else {
-                selectedSquare = backTrackingPlayer.miniMax(board, currentPlayer);
+                selectedSquare = backTrackingPlayer.findBestSquare(board, currentPlayer);
             }
         }
 
